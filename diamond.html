@@ -214,41 +214,5 @@
 
 </div>
 
-<script>
-function openTab(tabName) {
-  var i;
-  var x = document.getElementsByClassName("tab-content");
-  for (i = 0; i < x.length; i++) {
-    x[i].classList.remove("active");
-  }
-  document.getElementById(tabName).classList.add("active");
-}
-  </script>
-<script>
-  function openTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(function(content) {
-      content.classList.remove('active');
-    });
-    document.getElementById(tabName).classList.add('active');
-  }
-
-  // Désactiver les boutons si le joueur est déjà inscrit
-  document.addEventListener('DOMContentLoaded', () => {
-    const isRegistered = localStorage.getItem('registered');
-    if (isRegistered === 'true') {
-      const dayButtons = document.querySelectorAll('.day1-diamond-btn');
-      dayButtons.forEach(button => {
-        button.style.pointerEvents = 'none';
-        button.style.opacity = '0.5';
-        button.style.cursor = 'not-allowed';
-        button.title = 'Vous êtes déjà inscrit à un Day1 du Diamond Event';
-      });
-      // Afficher le message
-      const messageDiv = document.getElementById('already-registered-message');
-      messageDiv.innerText = "⚠️ Vous êtes déjà inscrit pour un Day1. Si vous rencontrez un problème, contactez-nous: 06.78.31.21.48 ou Facebook: 19pokerclub.";
-      messageDiv.style.display = 'block';
-    }
-  });
-</script>
 </body>
 </html>
