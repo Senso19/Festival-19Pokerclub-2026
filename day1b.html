@@ -116,7 +116,7 @@
       </select>
       <input type="text" name="pseudo" placeholder="Pseudo Live" required />
       <input type="text" name="pseudowinamax" placeholder="Pseudo Winamax" />
-      <input type="hidden" name="day1" value="Day1a">
+      <input type="hidden" name="day1" value="Day1b">
       <label for="repas">
         Repas :<br>
         Formule 25€ entrée / plat / fromage / dessert,<br>
@@ -149,6 +149,7 @@ clubSelect.addEventListener("change", () => {
     autreInput.remove();
   }
 });
+// Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
