@@ -180,24 +180,27 @@
       return;
     }
 
-    // Envoi normal du formulaire via Google Script
-    const data = {};
-    new FormData(form).forEach((value, key) => data[key] = value);
-    const url = "[script.google.com](https://script.google.com/macros/s/AKfycbwoMr9_NGclJEuM14WkvyA7b1Reok-ba4FT30l_CDR4LuhnHIk2L1do9nD0LRcjeDyJEg/exec)";
-    try {
-      await fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-      });
-      localStorage.setItem("registered", "true");
-      window.location.href = "merci.html";
-    } catch (err) {
-      alert("Une erreur est survenue. Réessaye plus tard.");
-      console.error(err);
-    }
-  });
+    // Gestion de l'envoi du formulaire
+    const form = document.getElementById("form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {};
+      new FormData(form).forEach((value, key) => data[key] = value);
+      const url = "https://script.google.com/macros/s/AKfycbwoMr9_NGclJEuM14WkvyA7b1Reok-ba4FT30l_CDR4LuhnHIk2L1do9nD0LRcjeDyJEg/exec";
+      try {
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(data)
+        });
+        localStorage.setItem("registered", "true");
+        window.location.href = "merci.html";
+      } catch (err) {
+        alert("Une erreur est survenue. RÃ©essaye plus tard.");
+        console.error(err);
+      }
+    });
 </script>
 
 </body>
