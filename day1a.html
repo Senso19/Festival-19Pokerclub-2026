@@ -82,7 +82,38 @@
       <input type="text" name="ville" placeholder="Ville" required />
       <input type="email" name="email" placeholder="Email" required />
       <input type="tel" name="telephone" placeholder="Numéro de téléphone" required />
-      <input type="text" name="club" placeholder="Club" required />
+      <label for="club">Club :</label>
+        <select name="club" id="club" required>
+        <option value="">-- Sélectionnez votre club --</option>
+        <option value="19PokerClub">19PokerClub</option>
+        <option value="Albi Poker 81">Albi Poker 81</option>
+        <option value="Association Clermont Poker">Association Clermont Poker</option>
+        <option value="Bourges Poker Club">Bourges Poker Club</option>
+        <option value="Cantal Poker Club">Cantal Poker Club</option>
+        <option value="Cartes sur table">Cartes sur table</option>
+        <option value="CPC Chateauroux">CPC Chateauroux</option>
+        <option value="Crazy World Poker">Crazy World Poker</option>
+        <option value="Hailan Poker Tour">Hailan Poker Tour</option>
+        <option value="Hold'em Poker Club Limousin">Hold'em Poker Club Limousin</option>
+        <option value="Lacanau de Mios PokerClub">Lacanau de Mios PokerClub</option>
+        <option value="La Ciotat">La Ciotat</option>
+        <option value="Les Lottois">Les Lottois</option>
+        <option value="NoLimit63">NoLimit63</option>
+        <option value="OPC Larche">OPC Larche</option>
+        <option value="Poker Club Vallée du Lot">Poker Club Vallée du Lot</option>
+        <option value="Poker Club Grande Champagne">Poker Club Grande Champagne</option>
+        <option value="Poker Team 87">Poker Team 87</option>
+        <option value="PokerMix">PokerMix</option>
+        <option value="Périgord Poker Club">Périgord Poker Club</option>
+        <option value="Redcactus">Redcactus</option>
+        <option value="Riviéra Poker Club">Riviéra Poker Club</option>
+        <option value="Sons of Poker">Sons of Poker</option>
+        <option value="Team BPOKP">Team BPOKP</option>
+        <option value="Toulouse Hold'em Poker">Toulouse Hold'em Poker</option>
+        <option value="Ussel Poker Club">Ussel Poker Club</option>
+        <option value="Sans club">Sans club</option>
+        <option value="Autre club">Autre club</option>
+      </select>
       <input type="text" name="pseudo" placeholder="Pseudo Live" required />
       <input type="text" name="pseudowinamax" placeholder="Pseudo Winamax" />
       <input type="hidden" name="day1" value="Day1a">
@@ -100,6 +131,25 @@
     </form>
   </div>
   <script>
+// Ajout du champ si "Autre club" est sélectionné
+     const clubSelect = document.getElementById("club");
+clubSelect.addEventListener("change", () => {
+  let autreInput = document.getElementById("autreClub");
+  if (clubSelect.value === "Autre") {
+    if (!autreInput) {
+      autreInput = document.createElement("input");
+      autreInput.type = "text";
+      autreInput.name = "autreClub";
+      autreInput.id = "autreClub";
+      autreInput.placeholder = "Entrer le nom de votre club";
+      autreInput.required = true;
+      clubSelect.insertAdjacentElement("afterend", autreInput);
+    }
+  } else if (autreInput) {
+    autreInput.remove();
+  }
+});
+// Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
