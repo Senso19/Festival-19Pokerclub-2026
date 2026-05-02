@@ -132,16 +132,16 @@
   </div>
   <script>
 // Ajout du champ si "Autre club" est sélectionné
-     const clubSelect = document.getElementById("club");
+const clubSelect = document.getElementById("club");
 clubSelect.addEventListener("change", () => {
   let autreInput = document.getElementById("autreClub");
-  if (clubSelect.value === "Autre") {
+  if (clubSelect.value === "Autre club") {
     if (!autreInput) {
       autreInput = document.createElement("input");
       autreInput.type = "text";
-      autreInput.name = "autreClub";
+      autreInput.name = "club"; // remplace directement le champ club
       autreInput.id = "autreClub";
-      autreInput.placeholder = "Entrer le nom de votre club";
+      autreInput.placeholder = "Entrez le nom de votre club";
       autreInput.required = true;
       clubSelect.insertAdjacentElement("afterend", autreInput);
     }
