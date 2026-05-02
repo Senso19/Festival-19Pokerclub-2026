@@ -77,7 +77,7 @@
     <form id="form">
       <input type="text" name="nom" placeholder="Nom" required />
       <input type="text" name="prenom" placeholder="Prénom" required />
-      <input type="text" name="date_naissance" placeholder="Date de naissance (jj-mm-aaaa)" required />
+      <input type="date" name="date_naissance" id="date_naissance" required />
       <input type="text" name="adresse" placeholder="Adresse" required />
       <input type="text" name="ville" placeholder="Ville" required />
       <input type="email" name="email" placeholder="Email" required />
@@ -130,46 +130,75 @@
       <button type="submit">S'INSCRIRE</button>
     </form>
   </div>
-  <script>
-// Ajout du champ si "Autre club" est sélectionné
-const clubSelect = document.getElementById("club");
-clubSelect.addEventListener("change", () => {
-  let autreInput = document.getElementById("autreClub");
-  if (clubSelect.value === "Autre club") {
-    if (!autreInput) {
-      autreInput = document.createElement("input");
-      autreInput.type = "text";
-      autreInput.name = "club"; // remplace directement le champ club
-      autreInput.id = "autreClub";
-      autreInput.placeholder = "Entrez le nom de votre club";
-      autreInput.required = true;
-      clubSelect.insertAdjacentElement("afterend", autreInput);
-    }
-  } else if (autreInput) {
-    autreInput.remove();
-  }
-});
-// Gestion de l'envoi du formulaire
-    const form = document.getElementById("form");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const data = {};
-      new FormData(form).forEach((value, key) => data[key] = value);
-      const url = "https://script.google.com/macros/s/AKfycbwoMr9_NGclJEuM14WkvyA7b1Reok-ba4FT30l_CDR4LuhnHIk2L1do9nD0LRcjeDyJEg/exec";
-      try {
-        await fetch(url, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(data)
-        });
-        localStorage.setItem("registered", "true");
-        window.location.href = "merci.html";
-      } catch (err) {
-        alert("Une erreur est survenue. Réessaye plus tard.");
-        console.error(err);
+<script>
+  const form = document.getElementById("form");
+  const dateNaissanceInput = document.getElementById("date_naissance");
+  const clubSelect = document.getElementById("club");
+
+  // Ajout du champ si "Autre club" est sélectionné
+  clubSelect.addEventListener("change", () => {
+    let autreInput = document.getElementById("autreClub");
+    if (clubSelect.value === "Autre club") {
+      if (!autreInput) {
+        autreInput = document.createElement("input");
+        autreInput.type = "text";
+        autreInput.name = "club"; // remplace directement le champ club
+        autreInput.id = "autreClub";
+        autreInput.placeholder = "Entrez le nom de votre club";
+        autreInput.required = true;
+        clubSelect.insertAdjacentElement("afterend", autreInput);
       }
-    });
-  </script>
+    } else if (autreInput) {
+      autreInput.remove();
+    }
+  });
+
+  // Vérification de la date de naissance et envoi du formulaire
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const valeurDate = dateNaissanceInput.value;
+    if (!valeurDate) {
+      alert("Veuillez saisir votre date de naissance.");
+      return;
+    }
+
+    const dateNaissance = new Date(valeurDate);
+    const maintenant = new Date();
+    const age = maintenant.getFullYear() - dateNaissance.getFullYear();
+    const mois = maintenant.getMonth() - dateNaissance.getMonth();
+    const jour = maintenant.getDate() - dateNaissance.getDate();
+    const ageExact = (mois < 0 || (mois === 0 && jour < 0)) ? age - 1 : age;
+
+    if (isNaN(dateNaissance.getTime())) {
+      alert("Date de naissance invalide. Merci de vérifier le format.");
+      return;
+    }
+
+    if (ageExact < 18) {
+      alert("Vous devez avoir au moins 18 ans pour vous inscrire.");
+      return;
+    }
+
+    // Envoi normal du formulaire via Google Script
+    const data = {};
+    new FormData(form).forEach((value, key) => data[key] = value);
+    const url = "[script.google.com](https://script.google.com/macros/s/AKfycbwoMr9_NGclJEuM14WkvyA7b1Reok-ba4FT30l_CDR4LuhnHIk2L1do9nD0LRcjeDyJEg/exec)";
+    try {
+      await fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+      localStorage.setItem("registered", "true");
+      window.location.href = "merci.html";
+    } catch (err) {
+      alert("Une erreur est survenue. Réessaye plus tard.");
+      console.error(err);
+    }
+  });
+</script>
+
 </body>
 </html>
