@@ -309,6 +309,22 @@ function openTab(tabName) {
     });
     document.getElementById(tabName).classList.add('active');
   }
+// 🔒 Désactiver les boutons si le joueur est déjà inscrit (édition 2026)
+document.addEventListener('DOMContentLoaded', () => {
+  const isRegistered = localStorage.getItem('registered_2026_Diamond');
+  if (isRegistered === 'true') {
+    const dayButtons = document.querySelectorAll('.day1-diamond-btn');
+    dayButtons.forEach(button => {
+      button.style.pointerEvents = 'none';
+      button.style.opacity = '0.5';
+      button.style.cursor = 'not-allowed';
+      button.title = 'Vous êtes déjà inscrit à un Day1 du Diamond Event 2026';
+    });
+    const messageDiv = document.getElementById('already-registered-message');
+    messageDiv.innerText = "⚠️ Vous êtes déjà inscrit pour un Day1 du Diamond Event 2026. Si vous rencontrez un problème, contactez-nous : 06.78.31.21.48 ou Facebook : 19pokerclub.";
+    messageDiv.style.display = 'block';
+  }
+});
 </script>
 </body>
 </html>
