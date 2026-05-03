@@ -74,10 +74,10 @@
   </div>
   <div class="container">
     <h2>INSCRIPTION DAY1B DU 13 JUIN 2026 - 10H00</h2>
-    <form id="form">
+     <form id="form">
       <input type="text" name="nom" placeholder="Nom" required />
       <input type="text" name="prenom" placeholder="Prénom" required />
-      <input type="text" name="date_naissance" placeholder="Date de naissance (jj-mm-aaaa)" required />
+      <input type="text" name="date_naissance" placeholder="Date de naissance" required />
       <input type="text" name="adresse" placeholder="Adresse" required />
       <input type="text" name="ville" placeholder="Ville" required />
       <input type="email" name="email" placeholder="Email" required />
@@ -148,6 +148,50 @@ clubSelect.addEventListener("change", () => {
   } else if (autreInput) {
     autreInput.remove();
   }
+});
+// Format automatique du numéro de téléphone en 00 00 00 00 00
+const telInput = document.querySelector('input[name="telephone"]');
+telInput.addEventListener("input", () => {
+  // Supprime tout caractère non numérique
+  let value = telInput.value.replace(/\D/g, "");
+
+  // Si l'utilisateur tape +33 au lieu de 0, on corrige
+  if (value.startsWith("33")) {
+    value = "0" + value.substring(2);
+  }
+
+  // Ne garde que les 10 premiers chiffres
+  value = value.substring(0, 10);
+
+  // Formate en groupes de deux chiffres
+  value = value.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+
+  telInput.value = value;
+});
+// Mise en majuscule de la première lettre pour nom, prénom et ville
+const capitalizeFields = ["nom", "prenom", "ville"];
+
+capitalizeFields.forEach((fieldName) => {
+  const input = document.querySelector(`input[name="${fieldName}"]`);
+  if (input) {
+    input.addEventListener("blur", () => {
+      const value = input.value.trim();
+      if (value.length > 0) {
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+      }
+    });
+  }
+});
+// Format automatique (ajout des tirets)
+const dateInput = document.querySelector('input[name="date_naissance"]');
+dateInput.addEventListener("input", () => {
+  let value = dateInput.value.replace(/\D/g, "");
+  if (value.length > 2 && value.length <= 4) {
+    value = value.slice(0, 2) + "-" + value.slice(2);
+  } else if (value.length > 4) {
+    value = value.slice(0, 2) + "-" + value.slice(2, 4) + "-" + value.slice(4, 8);
+  }
+  dateInput.value = value.substring(0, 10);
 });
 // Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
