@@ -194,52 +194,26 @@ dateInput.addEventListener("input", () => {
   dateInput.value = value.substring(0, 10);
 });
 // Gestion de l'envoi du formulaire
-const form = document.getElementById("form");
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  // ✅ Vérification du format de date (jj-mm-aaaa)
-  const dateInput = document.querySelector('input[name="date_naissance"]');
-  const dateValue = dateInput.value.trim();
-  const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-
-  if (!dateRegex.test(dateValue)) {
-    alert("Veuillez saisir votre date de naissance au format jj-mm-aaaa (ex : 25-09-1988).");
-    return;
-  }
-
-  // Vérifie aussi la validité réelle de la date
-  const [jour, mois, annee] = dateValue.split("-").map(Number);
-  const dateObj = new Date(annee, mois - 1, jour);
-  const dateValide =
-    dateObj.getFullYear() === annee &&
-    dateObj.getMonth() === mois - 1 &&
-    dateObj.getDate() === jour;
-
-  if (!dateValide) {
-    alert("La date de naissance indiquée n'est pas valide.");
-    return;
-  }
-
-  // ✅ Envoi normal du formulaire (inchangé)
-  const data = {};
-  new FormData(form).forEach((value, key) => (data[key] = value));
-  const url =
-    "[script.google.com](https://script.google.com/macros/s/AKfycbwoMr9_NGclJEuM14WkvyA7b1Reok-ba4FT30l_CDR4LuhnHIk2L1do9nD0LRcjeDyJEg/exec)";
-  try {
-    await fetch(url, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+    const form = document.getElementById("form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {};
+      new FormData(form).forEach((value, key) => data[key] = value);
+      const url = "https://script.google.com/macros/s/AKfycbwoMr9_NGclJEuM14WkvyA7b1Reok-ba4FT30l_CDR4LuhnHIk2L1do9nD0LRcjeDyJEg/exec";
+      try {
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(data)
+        });
+        localStorage.setItem("registered", "true");
+        window.location.href = "merci.html";
+      } catch (err) {
+        alert("Une erreur est survenue. Réessaye plus tard.");
+        console.error(err);
+      }
     });
-    localStorage.setItem("registered", "true");
-    window.location.href = "merci.html";
-  } catch (err) {
-    alert("Une erreur est survenue. Réessaye plus tard.");
-    console.error(err);
-  }
-});
   </script>
 </body>
 </html>
