@@ -149,6 +149,26 @@ clubSelect.addEventListener("change", () => {
     autreInput.remove();
   }
 });
+// Format automatique du numéro de téléphone en 00 00 00 00 00
+const telInput = document.querySelector('input[name="telephone"]');
+telInput.addEventListener("input", () => {
+  // Supprime tout caractère non numérique
+  let value = telInput.value.replace(/\D/g, "");
+
+  // Si l'utilisateur tape +33 au lieu de 0, on corrige
+  if (value.startsWith("33")) {
+    value = "0" + value.substring(2);
+  }
+
+  // Ne garde que les 10 premiers chiffres
+  value = value.substring(0, 10);
+
+  // Formate en groupes de deux chiffres
+  value = value.replace(/(\d{2})(?=\d)/g, "$1 ").trim();
+
+  telInput.value = value;
+});
+
 // Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
     form.addEventListener("submit", async (e) => {
