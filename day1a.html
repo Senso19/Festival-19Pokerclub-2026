@@ -182,48 +182,6 @@ capitalizeFields.forEach((fieldName) => {
     });
   }
 });
-// Format automatique et validation du champ date de naissance (jj-mm-aaaa)
-const dateInput = document.querySelector('input[name="date_naissance"]');
-
-// Forcer la saisie au format 00-00-0000
-dateInput.addEventListener("input", (e) => {
-  let value = dateInput.value.replace(/\D/g, ""); // retire tout sauf chiffres
-
-  // Ajoute des tirets automatiquement
-  if (value.length > 2 && value.length <= 4) {
-    value = value.slice(0, 2) + "-" + value.slice(2);
-  } else if (value.length > 4) {
-    value = value.slice(0, 2) + "-" + value.slice(2, 4) + "-" + value.slice(4, 8);
-  }
-
-  // Limite à 10 caractères
-  dateInput.value = value.substring(0, 10);
-});
-
-form.addEventListener("submit", (e) => {
-  const dateValue = dateInput.value.trim();
-  const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-
-  if (!dateRegex.test(dateValue)) {
-    e.preventDefault();
-    alert("Veuillez saisir votre date de naissance au format jj-mm-aaaa (ex : 25-09-1988).");
-    return;
-  }
-
-  // Vérifie aussi la validité réelle de la date
-  const [jour, mois, annee] = dateValue.split("-").map(Number);
-  const dateObj = new Date(annee, mois - 1, jour);
-  const dateValide = (
-    dateObj.getFullYear() === annee &&
-    dateObj.getMonth() === mois - 1 &&
-    dateObj.getDate() === jour
-  );
-
-  if (!dateValide) {
-    e.preventDefault();
-    alert("La date de naissance indiquée n'est pas valide.");
-  }
-});
 // Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
     form.addEventListener("submit", async (e) => {
