@@ -168,6 +168,20 @@ telInput.addEventListener("input", () => {
 
   telInput.value = value;
 });
+// Mise en majuscule de la première lettre pour nom, prénom et ville
+const capitalizeFields = ["nom", "prenom", "ville"];
+
+capitalizeFields.forEach((fieldName) => {
+  const input = document.querySelector(`input[name="${fieldName}"]`);
+  if (input) {
+    input.addEventListener("blur", () => {
+      const value = input.value.trim();
+      if (value.length > 0) {
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+      }
+    });
+  }
+});
 // Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
     form.addEventListener("submit", async (e) => {
