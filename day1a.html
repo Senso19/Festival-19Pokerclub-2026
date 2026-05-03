@@ -182,6 +182,17 @@ capitalizeFields.forEach((fieldName) => {
     });
   }
 });
+// Format automatique (ajout des tirets)
+const dateInput = document.querySelector('input[name="date_naissance"]');
+dateInput.addEventListener("input", () => {
+  let value = dateInput.value.replace(/\D/g, "");
+  if (value.length > 2 && value.length <= 4) {
+    value = value.slice(0, 2) + "-" + value.slice(2);
+  } else if (value.length > 4) {
+    value = value.slice(0, 2) + "-" + value.slice(2, 4) + "-" + value.slice(4, 8);
+  }
+  dateInput.value = value.substring(0, 10);
+});
 // Gestion de l'envoi du formulaire
     const form = document.getElementById("form");
     form.addEventListener("submit", async (e) => {
